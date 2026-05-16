@@ -1,0 +1,32 @@
+name: Deploy to Somee
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish App
+      run: dotnet publish AttendanceApi.csproj -c Release -o ./publish
+
+    - name: Deploy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ftp.somee.com
+        username: antigravity01
+        password: ${{ secrets.SOMEE_PASSWORD }}
+        local-dir: ./publish/
+        server-dir: www.vishalantigravity01.somee.com/
+        protocol: ftp
+        port: 21
