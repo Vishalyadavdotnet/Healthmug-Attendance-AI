@@ -36,7 +36,10 @@ jobs:
         port: 21
 
     - name: Bring App Online
+      shell: pwsh
       run: |
-        # 🔥 Deployment ke baad offline file delete karo
-        curl -u "antigravity01:${{ secrets.SOMEE_PASSWORD }}" -Q "DELE www.vishalantigravity01.somee.com/app_offline.htm" ftp://vishalantigravity01.somee.com
+        $ftp = [System.Net.FtpWebRequest]::Create("ftp://vishalantigravity01.somee.com/www.vishalantigravity01.somee.com/app_offline.htm")
+        $ftp.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
+        $ftp.Credentials = New-Object System.Net.NetworkCredential("antigravity01", "${{ secrets.SOMEE_PASSWORD }}")
+        $ftp.GetResponse()
 
