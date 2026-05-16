@@ -53,6 +53,7 @@ bld/
 *.nuget.targets
 
 # Publish Web Output
+publish/
 *.[Pp]ublish.xml
 *.azurePubxml
 *.publishproj
