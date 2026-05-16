@@ -9,9 +9,10 @@ builder.Services.AddSingleton<SupabaseService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        policy => policy.AllowAnyOrigin()
+        policy => policy.WithOrigins("https://hrhealthmug.vercel.app", "http://localhost:5173", "http://localhost:5174")
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .AllowCredentials());
 });
 
 var app = builder.Build();
@@ -23,5 +24,4 @@ app.UseSwaggerUI();
 
 app.MapControllers();
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
-app.Run($"http://0.0.0.0:{port}");
+app.Run();
