@@ -21,8 +21,24 @@ jobs:
       run: |
         dotnet publish AttendanceApi.csproj -c Release -o ./publish
         mkdir -p ./publish/logs
+        echo "<h1>Site is under maintenance. Please try again in a few minutes.</h1>" > ./app_offline.htm
 
-    - name: Deploy via FTP
+    - name: Take App Offline
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: vishalantigravity01.somee.com
+        username: antigravity01
+        password: ${{ secrets.SOMEE_PASSWORD }}
+        local-dir: ./
+        server-dir: www.vishalantigravity01.somee.com/
+        protocol: ftp
+        port: 21
+        only-newer: false
+        exclude: |
+          **
+          !app_offline.htm
+
+    - name: Deploy App Files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: vishalantigravity01.somee.com
@@ -32,3 +48,8 @@ jobs:
         server-dir: www.vishalantigravity01.somee.com/
         protocol: ftp
         port: 21
+
+    - name: Bring App Online
+      run: |
+        curl -u "antigravity01:${{ secrets.SOMEE_PASSWORD }}" -Q "DELE www.vishalantigravity01.somee.com/app_offline.htm" ftp://vishalantigravity01.somee.com
+

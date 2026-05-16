@@ -6,13 +6,13 @@ public class User
     public int Id { get; set; }
 
     [JsonPropertyName("phone_number")]
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = default!;
 
     [JsonPropertyName("pin")]
-    public string Pin { get; set; }
+    public string Pin { get; set; } = default!;
 
     [JsonPropertyName("shift_hours")]
-    public string ShiftHours { get; set; }
+    public string ShiftHours { get; set; } = default!;
 
     [JsonPropertyName("salary")]
     public decimal Salary { get; set; }
@@ -24,5 +24,5 @@ public class User
     public int ELHours { get; set; }
 
     [JsonPropertyName("saturday_rule")]
-    public string SaturdayRule { get; set; }
+    public string SaturdayRule { get; set; } = default!;
 }

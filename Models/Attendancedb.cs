@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 public class AttendanceDb
 {
@@ -9,13 +9,13 @@ public class AttendanceDb
     public int UserId { get; set; }
 
     [JsonPropertyName("date")]
-    public string Date { get; set; }
+    public string Date { get; set; } = default!;
 
     [JsonPropertyName("in_time")]
-    public string InTime { get; set; }
+    public string InTime { get; set; } = default!;
 
     [JsonPropertyName("out_time")]
-    public string OutTime { get; set; }
+    public string OutTime { get; set; } = default!;
 
     [JsonPropertyName("duration")]
     public int Duration { get; set; }
