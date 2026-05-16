@@ -24,7 +24,7 @@ jobs:
         # 🔥 App ko offline rakhne ke liye publish folder mein file dalo
         echo "<h1>Site is under maintenance. Please try again in a few minutes.</h1>" > ./publish/app_offline.htm
 
-    - name: Deploy App Files
+    - name: Deploy App (Offline Mode)
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: vishalantigravity01.somee.com
@@ -35,11 +35,18 @@ jobs:
         protocol: ftp
         port: 21
 
-    - name: Bring App Online
-      shell: pwsh
-      run: |
-        $ftp = [System.Net.FtpWebRequest]::Create("ftp://vishalantigravity01.somee.com/www.vishalantigravity01.somee.com/app_offline.htm")
-        $ftp.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
-        $ftp.Credentials = New-Object System.Net.NetworkCredential("antigravity01", "${{ secrets.SOMEE_PASSWORD }}")
-        $ftp.GetResponse()
+    - name: Remove Offline File Locally
+      run: rm ./publish/app_offline.htm
+
+    - name: Deploy App (Online Mode)
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: vishalantigravity01.somee.com
+        username: antigravity01
+        password: ${{ secrets.SOMEE_PASSWORD }}
+        local-dir: ./publish/
+        server-dir: www.vishalantigravity01.somee.com/
+        protocol: ftp
+        port: 21
+
 
