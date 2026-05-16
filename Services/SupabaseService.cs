@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 
 public class SupabaseService
@@ -8,11 +8,15 @@ public class SupabaseService
     public SupabaseService()
     {
         _http = new HttpClient();
-        _http.BaseAddress = new Uri("https://gnzlwcurrpudbnernjdu.supabase.co");
+        _http.BaseAddress = new Uri("https://aqgtqesaisqhcptfygqd.supabase.co");
 
-        _http.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imduemx3Y3VycnB1ZGJuZXJuamR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDM1OTUsImV4cCI6MjA4OTkxOTU5NX0.2Y0tEOSit0UPwc_gfWy23dL_qLROASyFNvnoJRE70KM");
-        _http.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imduemx3Y3VycnB1ZGJuZXJuamR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDM1OTUsImV4cCI6MjA4OTkxOTU5NX0.2Y0tEOSit0UPwc_gfWy23dL_qLROASyFNvnoJRE70KM");
+        _http.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxZ3RxZXNhaXNxaGNwdGZ5Z3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NjQ5MjEsImV4cCI6MjA5MjM0MDkyMX0.AspdHVNXDN5GYnXA5wdqbZQPHi9A9SqrrOp2Gka8k28");
+        _http.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxZ3RxZXNhaXNxaGNwdGZ5Z3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NjQ5MjEsImV4cCI6MjA5MjM0MDkyMX0.AspdHVNXDN5GYnXA5wdqbZQPHi9A9SqrrOp2Gka8k28");
         _http.DefaultRequestHeaders.Add("Prefer", "return=representation");
+        
+        // 🔥 Attendance schema use karne ke liye headers
+        _http.DefaultRequestHeaders.Add("Accept-Profile", "attendance");
+        _http.DefaultRequestHeaders.Add("Content-Profile", "attendance");
     }
 
     // 🔥 raw json return karega
