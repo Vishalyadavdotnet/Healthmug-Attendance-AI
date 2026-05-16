@@ -23,7 +23,7 @@ jobs:
     - name: Deploy via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ftp.somee.com
+        server: vishalantigravity01.somee.com
         username: antigravity01
         password: ${{ secrets.SOMEE_PASSWORD }}
         local-dir: ./publish/
