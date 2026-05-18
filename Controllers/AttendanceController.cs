@@ -17,7 +17,7 @@ public class AttendanceController : ControllerBase
         _supabase = supabase;
     }
 
-    // ✅ CREATE
+    // CREATE
     [HttpPost("attendance")]
     public async Task<IActionResult> Create([FromBody] Attendance a)
     {
@@ -49,7 +49,7 @@ public class AttendanceController : ControllerBase
         });
     }
 
-    // ✅ GET
+    // GET
     [HttpGet("attendance/{userId}")]
     public async Task<IActionResult> Get(int userId)
     {
@@ -80,7 +80,7 @@ public IActionResult Ping()
 {
     return Ok("alive");
 }
-    // ✅ UPDATE
+    // UPDATE
     [HttpPut("attendance/{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateAttendanceDto dto)
     {
@@ -113,7 +113,7 @@ public IActionResult Ping()
         });
     }
 
-    // ✅ DELETE
+    // DELETE
     [HttpDelete("attendance/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -121,7 +121,7 @@ public IActionResult Ping()
         return Ok("Deleted");
     }
 
-    // ✅ APPLY LEAVE
+    // APPLY LEAVE
     [HttpPost("attendance/apply-leave")]
     public async Task<IActionResult> ApplyLeave([FromBody] ApplyLeaveDto dto)
     {
