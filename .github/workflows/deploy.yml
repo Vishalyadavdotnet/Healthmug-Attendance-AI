@@ -21,10 +21,14 @@ jobs:
       run: |
         dotnet publish AttendanceApi.csproj -c Release -o ./publish
         mkdir -p ./publish/logs
-        # 🔥 App ko offline rakhne ke liye publish folder mein file dalo
-        echo "<h1>Site is under maintenance. Please try again in a few minutes.</h1>" > ./publish/app_offline.htm
 
-    - name: Deploy App (Offline Mode)
+    - name: Take App Offline
+      run: |
+        echo "<h1>Site is under maintenance. Please try again in a few minutes.</h1>" > app_offline.htm
+        curl -T app_offline.htm ftp://vishalantigravity01.somee.com/www.vishalantigravity01.somee.com/app_offline.htm --user antigravity01:${{ secrets.SOMEE_PASSWORD }}
+        sleep 10
+
+    - name: Deploy App
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: vishalantigravity01.somee.com
@@ -35,18 +39,6 @@ jobs:
         protocol: ftp
         port: 21
 
-    - name: Remove Offline File Locally
-      run: rm ./publish/app_offline.htm
-
-    - name: Deploy App (Online Mode)
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: vishalantigravity01.somee.com
-        username: antigravity01
-        password: ${{ secrets.SOMEE_PASSWORD }}
-        local-dir: ./publish/
-        server-dir: www.vishalantigravity01.somee.com/
-        protocol: ftp
-        port: 21
-
-
+    - name: Bring App Online
+      run: |
+        curl ftp://vishalantigravity01.somee.com/ -Q "-DELE www.vishalantigravity01.somee.com/app_offline.htm" --user antigravity01:${{ secrets.SOMEE_PASSWORD }} || true
