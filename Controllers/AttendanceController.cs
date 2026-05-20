@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
+[Authorize]
 [ApiController]
 [Route("api")]
 public class AttendanceController : ControllerBase
@@ -74,12 +76,14 @@ public class AttendanceController : ControllerBase
     }
 
 
-[HttpGet("ping")]
-[HttpHead("ping")]
-public IActionResult Ping()
-{
-    return Ok("alive");
-}
+    [AllowAnonymous]
+    [HttpGet("ping")]
+    [HttpHead("ping")]
+    [AttendanceApi.Middleware.ApiKeyAuth]
+    public IActionResult Ping()
+    {
+        return Ok("alive");
+    }
     // UPDATE
     [HttpPut("attendance/{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateAttendanceDto dto)

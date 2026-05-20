@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 
 [ApiController]
@@ -6,10 +10,34 @@ using System.Text.Json;
 public class AuthController : ControllerBase
 {
     private readonly SupabaseService _supabase;
+    private readonly IConfiguration _config;
 
-    public AuthController(SupabaseService supabase)
+    public AuthController(SupabaseService supabase, IConfiguration config)
     {
         _supabase = supabase;
+        _config = config;
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim("phone", user.PhoneNumber)
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.Now.AddDays(7),
+            signingCredentials: credentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     [HttpPost("login")]
@@ -24,6 +52,7 @@ public class AuthController : ControllerBase
             return Unauthorized();
 
         var user = list[0];
+        var token = GenerateJwtToken(user);
 
         return Ok(new
         {
@@ -34,7 +63,8 @@ public class AuthController : ControllerBase
             salary = user.Salary,
             clHours = user.CLHours,
             elHours = user.ELHours,
-            saturdayRule = user.SaturdayRule
+            saturdayRule = user.SaturdayRule,
+            token = token
         });
     }
 
@@ -71,6 +101,7 @@ public class AuthController : ControllerBase
             return StatusCode(500, "Insert failed");
 
         var user = list[0];
+        var token = GenerateJwtToken(user);
 
         return Ok(new
         {
@@ -81,7 +112,8 @@ public class AuthController : ControllerBase
             salary = user.Salary,
             clHours = user.CLHours,
             elHours = user.ELHours,
-            saturdayRule = user.SaturdayRule
+            saturdayRule = user.SaturdayRule,
+            token = token
         });
     }
 }
