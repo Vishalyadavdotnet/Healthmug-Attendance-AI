@@ -19,7 +19,7 @@ builder.Services.AddSingleton<SupabaseService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
-        policy => policy.WithOrigins("https://hrhealthmug.vercel.app", "http://localhost:5173", "http://localhost:5174")
+        policy => policy.WithOrigins("https://hrhealthmug.vercel.app", "http://localhost:5173", "http://localhost:5174", "http://vishalantigravity01.somee.com", "https://vishalantigravity01.somee.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials());
