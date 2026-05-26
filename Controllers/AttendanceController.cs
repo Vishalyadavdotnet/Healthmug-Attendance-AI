@@ -9,6 +9,7 @@ public class AttendanceController : ControllerBase
 {
     private readonly SupabaseService _supabase;
 
+
     private readonly JsonSerializerOptions _options = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
